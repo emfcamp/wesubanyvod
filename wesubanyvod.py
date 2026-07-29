@@ -16,8 +16,8 @@ model = whisper.load_model(config.model).to(config.cuda_device) # Change this to
 logging.warning(f"Loaded model {config.model}.")
 
 # --- pick up directories from config ---
-audio_directory = os.fsencode(config.audio_folder)
-logging.warning(f"Audio folder: {config.audio_folder}")
+input_directory = os.fsencode(config.input_folder)
+logging.warning(f"Audio folder: {config.input_folder}")
 srt_directory = os.fsencode(config.srt_folder)
 logging.warning(f"SRT output folder: {config.srt_folder}")
 
@@ -32,16 +32,19 @@ def transcribe_audio(src_file):
             text = segment['text']
             segmentId = segment['id']+1
             segment = f"{segmentId}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
-            srtFilename = os.path.join(f"{config.srt_folder}",f"{src_file.rsplit(".", 1)[0]}.srt")
+            if config.c3vocmode:
+                srtFilename = os.path.join(f"{config.srt_folder}",f"{"-".join(src_file.split("-", 3)[:3])}.srt")
+            else:
+                srtFilename = os.path.join(f"{config.srt_folder}",f"{src_file.rsplit(".", 1)[0]}.srt")
             with open(srtFilename, 'a', encoding='utf-8') as srtFile:
                 srtFile.write(segment)
                 logging.warning(segment)
     return srtFilename
 
-for file in os.listdir(audio_directory):
+for file in os.listdir(input_directory):
     src_file = os.fsdecode(file)
     if src_file.endswith(".mp3") or src_file.endswith(".wav") or src_file.endswith(".mp4") or src_file.endswith(".webm"): 
-        transcribe_audio(f"{config.audio_folder}/{src_file}")
+        transcribe_audio(f"{config.input_folder}/{src_file}")
         continue
     else:
         continue
