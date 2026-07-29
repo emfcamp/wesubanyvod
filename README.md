@@ -18,3 +18,9 @@ A tool for taking VODs from media.ccc.de, and generating SRT subtitle files usin
 ## Notes
 
 tbd
+
+### Licensing
+
+(need to get licence for the gist that built the srt stuff)
+https://stackoverflow.com/a/8171258, Posted by kindall, modified by community. See post 'Timeline' for change history, Retrieved 2026-07-29, License - CC BY-SA 3.0
+https://stackoverflow.com/a/10378012, Posted by anselm, modified by community. See post 'Timeline' for change history, Retrieved 2026-07-29, License - CC BY-SA 4.0

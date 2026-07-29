@@ -7,19 +7,19 @@ import logging
 import whisper
 import torch
 
-logging.basicConfig()
+logging.root.setLevel(logging.INFO)
 
 # --- start cuda engine, load the model into it ---
 torch.cuda.init()
-logging.warning(f"Loaded CUDA device {config.cuda_device}")
+logging.info(f"Loaded CUDA device {config.cuda_device}")
 model = whisper.load_model(config.model).to(config.cuda_device) # Change this to your desired model
-logging.warning(f"Loaded model {config.model}.")
+logging.info(f"Loaded model {config.model}.")
 
 # --- pick up directories from config ---
 input_directory = os.fsencode(config.input_folder)
-logging.warning(f"Audio folder: {config.input_folder}")
+logging.info(f"Audio folder: {config.input_folder}")
 srt_directory = os.fsencode(config.srt_folder)
-logging.warning(f"SRT output folder: {config.srt_folder}")
+logging.info(f"SRT output folder: {config.srt_folder}")
 
 def transcribe_audio(src_file):
     logging.warning(f"Transcribing {src_file}...")
@@ -33,12 +33,13 @@ def transcribe_audio(src_file):
             segmentId = segment['id']+1
             segment = f"{segmentId}\n{startTime} --> {endTime}\n{text[1:] if text[0] == ' ' else text}\n\n"
             if config.c3vocmode:
-                srtFilename = os.path.join(f"{config.srt_folder}",f"{"-".join(src_file.split("-", 3)[:3])}.srt")
+                srtFilename = config.srt_folder + '/' + f"{"-".join(src_file[src_file.find('/')+1:].split("-", 2)[:2])}.srt"
             else:
-                srtFilename = os.path.join(f"{config.srt_folder}",f"{src_file.rsplit(".", 1)[0]}.srt")
+                srtFilename = config.srt_folder + '/' + src_file[src_file.find('/')+1:]
+
             with open(srtFilename, 'a', encoding='utf-8') as srtFile:
                 srtFile.write(segment)
-                logging.warning(segment)
+    logging.info(f'Finished writing {srtFilename}')
     return srtFilename
 
 for file in os.listdir(input_directory):
