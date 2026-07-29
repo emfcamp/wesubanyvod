@@ -1,6 +1,6 @@
-# wecaptionanyvod
+# wesubanyvod
 
-A tool for taking VODs from media.ccc.de, and generating SRT caption files using OpenAI's Whisper local speech-to-text-module
+A tool for taking VODs from media.ccc.de, and generating SRT subtitle files using OpenAI's Whisper local speech-to-text model
 
 ## Requirements
 - A modern computer, ideally with a CUDA enabled GPU.
