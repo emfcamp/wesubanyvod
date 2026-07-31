@@ -26,7 +26,7 @@ def transcribe_audio(src_file):
     transcription = model.transcribe(audio=src_file,verbose=True)
     with torch.cuda.device(config.cuda_device):  
         if config.c3voc_mode:
-            srtfilename = config.srt_folder + '/' + f"{"-".join(src_file[src_file.find('/')+1:].split("-", 2)[:2])}.srt"
+            srtfilename = config.srt_folder + '/' + f"{"-".join(src_file[src_file.find('/')+1:].split("-", 2)[:2])[:-2]}.srt"
         else:
             srtfilename = config.srt_folder + '/' + src_file[src_file.find('/')+1:]
         with open(srtfilename, 'a', encoding='utf-8') as srtFile:
