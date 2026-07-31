@@ -1,5 +1,4 @@
 # --- importing boring stuff ---
-from datetime import timedelta
 import os
 import config
 import logging
@@ -18,7 +17,7 @@ writer = whisper.utils.WriteSRT("static")
 
 # --- pick up directories from config ---
 input_directory = os.fsencode(config.input_folder)
-logging.info(f"Audio folder: {config.input_folder}")
+logging.info(f"Input folder: {config.input_folder}")
 srt_directory = os.fsencode(config.srt_folder)
 logging.info(f"SRT output folder: {config.srt_folder}")
 
@@ -26,7 +25,7 @@ def transcribe_audio(src_file):
     logging.warning(f"Transcribing {src_file}...")
     transcription = model.transcribe(audio=src_file,verbose=True)
     with torch.cuda.device(config.cuda_device):  
-        if config.c3vocmode:
+        if config.c3voc_mode:
             srtfilename = config.srt_folder + '/' + f"{"-".join(src_file[src_file.find('/')+1:].split("-", 2)[:2])}.srt"
         else:
             srtfilename = config.srt_folder + '/' + src_file[src_file.find('/')+1:]
