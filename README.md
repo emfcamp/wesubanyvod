@@ -11,7 +11,7 @@ A tool for taking VODs from media.ccc.de, and generating SRT subtitle files usin
 
 ## Usage
 - Satisfy requirements as above
-- Edit `config.py` to your liking
+- Copy `config.py.example` to `config.py` and edit to your liking
 - Fill your input folder with media (audio is most compact, but it uses ffmpeg so will read basically anything. The script only looks for `mp3`, `mp4`, `wav`, `webm`.)
 - Run the script.
 
